@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <rect x="10" y="10" height="110" width="110"
+            fill="url(#g1)"
+        >
+
+        <animateTransform
+            attributeName="transform"
+            begin="0s"
+            dur="10s"
+            type="rotate"
+            from="0 70 70"
+            to="360 70 70"
+            repeatCount="indefinite"
+        />
+    </rect>
+    <defs>
+        <linearGradient id="g1">
+            <stop offset="0%" stop-color="cream"/>
+            <stop offset="10%" stop-color="lightgreen"/>
+            <stop offset="20%" stop-color="lightorange"/>
+            <stop offset="30%" stop-color="lightblue"/>
+            <stop offset="40%" stop-color="red"/>
+            <stop offset="50%" stop-color="green"/>
+            <stop offset="60%" stop-color="cyan"/>
+            <stop offset="70%" stop-color="pink"/>
+            <stop offset="80%" stop-color="magenta"/>
+            <stop offset="90%" stop-color="purple"/>
+            <stop offset="100%" stop-color="orange"/>
+        </linearGradient>
+    </defs>
+
+</svg>
