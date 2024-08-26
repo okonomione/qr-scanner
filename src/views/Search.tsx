@@ -21,9 +21,18 @@ export function SearchView() {
   useEffect(() => {
     if (selector.length > 0) {
       setShowSearchResults(true);
+      fetchMore({
+        variables: {
+          offset: 0,
+          searchString: selector,
+        },
+      }).then(data => {
+        setData(data.data.listings.listings);
+      });
     } else {
       setShowSearchResults(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selector]);
 
   const [d, setData] = React.useState<ISearchResultItem[]>([]);
@@ -45,7 +54,6 @@ export function SearchView() {
 
   const loadMore = async () => {
     if (data?.listings?.numFound > d.length) {
-      console.log('loading more');
       if (!isLoading) {
         setIsLoading(true);
         const moreData = await fetchMore({
@@ -60,11 +68,15 @@ export function SearchView() {
 
   return (
     <View style={style.container}>
-      {showSearchResults}
       {!showSearchResults ? (
         <RecentSearches />
       ) : (
-        <SearchResults data={d} isLoading={isLoading} loadMore={loadMore} />
+        <SearchResults
+          data={d}
+          isLoading={isLoading}
+          loadMore={loadMore}
+          onItemPressed={item => console.log(item)}
+        />
       )}
     </View>
   );

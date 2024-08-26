@@ -7,6 +7,7 @@ import useColors from '../Infrastructure/useColors';
 export function SearchBar(props: {
   value?: string;
   onChangeText?: (text: string) => void;
+  onSearchPress?: (text: string) => void;
 }) {
   const {colors} = useColors();
 
@@ -60,7 +61,13 @@ export function SearchBar(props: {
             style={style.textInput}
             returnKeyType="search"
           />
-          <IconButton icon="magnify" onPress={() => {}} style={style.button} />
+          <IconButton
+            icon="magnify"
+            onPress={() => {
+              props.onSearchPress?.(props.value ?? '');
+            }}
+            style={style.button}
+          />
         </View>
       </LinearGradient>
     </View>

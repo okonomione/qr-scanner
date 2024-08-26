@@ -1,8 +1,10 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import useColors from '../Infrastructure/useColors';
+import {ItemComponentImage} from './ItemComponentImage';
 
 export interface SearchItemComponentProps {
+  id: string;
   title: string;
   category: string;
   subCategory: string;
@@ -13,25 +15,11 @@ export interface SearchItemComponentProps {
   userName: string;
   footerLabel?: string;
   footerValue?: string;
-}
-
-function ItemComponentImage(props: {path: string; style: any}) {
-  const path = props.path.replace('draft', 'thumbnails');
-
-  return (
-    <Image
-      source={{
-        uri: `https://images.okonomi.one/${path}`,
-      }}
-      style={props.style}
-    />
-  );
+  onPress: <T>(item: T) => void;
 }
 
 export function SearchItemComponent(props: SearchItemComponentProps) {
   const {colors} = useColors();
-
-  const imageUrl = props.images[0];
 
   const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -110,13 +98,14 @@ export function SearchItemComponent(props: SearchItemComponentProps) {
     },
   });
 
-  // console.log('SearchItemComponent', JSON.stringify(props, null, 4));
-
   return (
     <View style={style.container}>
       <View style={style.imageContainer}>
-        {/* <Image style={style.image} source={{uri: props.images?.[0]}} /> */}
-        <ItemComponentImage style={style.image} path={imageUrl} />
+        <ItemComponentImage
+          style={style.image}
+          path={props.images[0]}
+          onPress={() => props.onPress(props.id)}
+        />
       </View>
       <Text style={style.title}>{props.title}</Text>
       <View style={style.detailsContainer}>
@@ -142,12 +131,58 @@ export function SearchItemComponent(props: SearchItemComponentProps) {
   );
 }
 
-export interface UserLabelProps {
+export interface KeyValueProps {
   label?: string;
   value?: string;
 }
 
-export function LabelValue(props: UserLabelProps) {
+export interface UserProps {
+  imageUrl?: string;
+  userName?: string;
+  style?: any;
+}
+
+export function User(props: UserProps) {
+  const {colors} = useColors();
+
+  const style = StyleSheet.create({
+    container: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      ...props.style,
+    },
+    image: {
+      display: 'flex',
+      height: 15,
+      width: 15,
+      borderRadius: 10,
+    },
+    userName: {
+      display: 'flex',
+      alignItems: 'center',
+      color: colors.textPrimary,
+      fontSize: 16,
+      letterSpacing: 0.15,
+      width: 150,
+      justifyContent: 'flex-start',
+      marginTop: 4,
+      gap: 4,
+      height: 28,
+    },
+  });
+
+  return (
+    <View style={style.container}>
+      <Image source={{uri: props.imageUrl}} style={style.image} />
+      <Text style={style.userName}>{props.userName}</Text>
+    </View>
+  );
+}
+
+export function LabelValue(props: KeyValueProps) {
   const {colors} = useColors();
 
   const style = StyleSheet.create({

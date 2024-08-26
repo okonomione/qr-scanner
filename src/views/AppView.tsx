@@ -11,7 +11,7 @@ export function AppMainView(props: {
   const {colors} = useColors();
 
   const backgroundStyle = {
-    backgroundColor: colors.primaryBackground,
+    backgroundColor: `${colors.primaryBackground}`,
     height: '100%',
   };
 
@@ -41,7 +41,6 @@ export function AppMainView(props: {
         const items = await response.json();
 
         if (isActive) {
-          // console.log('Items', JSON.stringify(items, null, 3));
           setSearchItems(items.response?.docs);
         }
       } catch (error) {

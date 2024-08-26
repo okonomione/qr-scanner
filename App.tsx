@@ -36,6 +36,7 @@ import {
 import {SearchBar} from './src/components/SearchBar';
 import {AppHeader} from './src/components/AppHeader';
 import {setSearchText} from './src/features/search/slice/SearchSlice';
+import {Listing} from './src/views/Listing';
 
 global.Buffer = require('buffer').Buffer;
 
@@ -55,7 +56,7 @@ function RootNavigator() {
     <Provider store={store}>
       <ApolloProvider client={client}>
         <NavigationContainer>
-          <MarketPlaceTabs />
+          <MarketplaceNavigationTabs />
         </NavigationContainer>
       </ApolloProvider>
     </Provider>
@@ -72,25 +73,7 @@ function App(): React.JSX.Element {
 
 export default App;
 
-export function SearchStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="HomeTabs" component={MarketPlaceTabs} />
-      <Stack.Screen
-        name="PlaceAd"
-        component={PlaceAdStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="About"
-        component={About}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
-}
-
-export function ProfileStack() {
+export function ProfileNavigationStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="ProfileMain" component={Profile} />
@@ -98,7 +81,7 @@ export function ProfileStack() {
   );
 }
 
-export function PlaceAdStack() {
+export function PlaceAdNavigationStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="PlaceAdMain" component={CreateListing} />
@@ -106,7 +89,7 @@ export function PlaceAdStack() {
   );
 }
 
-export function MarketPlaceTabs() {
+export function MarketplaceNavigationTabs() {
   const {colors} = useColors();
 
   const styles = StyleSheet.create({
@@ -133,15 +116,20 @@ export function MarketPlaceTabs() {
       />
       <Tab.Screen
         name="PlaceAd"
-        component={PlaceAdStack}
+        component={PlaceAdNavigationStack}
         options={createListingTabOptions}
       />
       <Tab.Screen name="About" component={About} options={aboutTabOptions} />
       <Tab.Screen
         name="Profile"
-        component={ProfileStack}
+        component={ProfileNavigationStack}
         options={profileTabBarOptions}
       />
+      {/* <Tab.Screen
+        name="Listing"
+        component={Listing}
+        options={profileTabBarOptions}
+      /> */}
     </Tab.Navigator>
   );
 }
@@ -205,6 +193,17 @@ export function HomeNavigationStack() {
             backgroundColor: colors.secondaryBackground,
           },
           headerTitle: MarketPlaceSearchBar,
+          headerTintColor: colors.textPrimary,
+        }}
+      />
+      <Stack.Screen
+        name="Listing"
+        component={Listing}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.secondaryBackground,
+          },
           headerTintColor: colors.textPrimary,
         }}
       />

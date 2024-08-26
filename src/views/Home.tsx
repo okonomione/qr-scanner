@@ -25,10 +25,14 @@ export function Home(props: {navigation: any}) {
     }
   }, [error]);
 
+  const onItemPressed = async (item: any) => {
+    props.navigation.navigate('Listing', {listingId: item});
+  };
+
   const loadMore = async () => {
     if (data?.listings?.numFound > d.length) {
-      console.log('loading more');
       if (!isLoading) {
+        console.log('loading more');
         setIsLoading(true);
         const moreData = await fetchMore({
           variables: {offset: d?.length},
@@ -42,7 +46,12 @@ export function Home(props: {navigation: any}) {
 
   return (
     <AppMainView {...props}>
-      <SearchResults loadMore={loadMore} data={d} isLoading={isLoading} />
+      <SearchResults
+        loadMore={loadMore}
+        data={d}
+        isLoading={isLoading}
+        onItemPressed={onItemPressed}
+      />
     </AppMainView>
   );
 }

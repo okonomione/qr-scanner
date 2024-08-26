@@ -7,6 +7,7 @@ import {Spinner} from './Spinner';
 export function SearchResults(props: {
   data: ISearchResultItem[];
   isLoading: boolean;
+  onItemPressed: <T>(item: T) => void;
   loadMore: () => void;
 }) {
   const style = StyleSheet.create({
@@ -24,6 +25,7 @@ export function SearchResults(props: {
         numColumns={2}
         renderItem={({item}) => (
           <SearchItemComponent
+            id={item?.id}
             category={item?.series}
             title={item?.title ?? item?.name}
             subCategory={item?.set}
@@ -34,6 +36,7 @@ export function SearchResults(props: {
             userName={item?.seller ?? 'Unknown'}
             footerLabel={item?.rarity}
             footerValue={item?.number?.toString()}
+            onPress={props.onItemPressed}
           />
         )}
       />

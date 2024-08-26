@@ -9,15 +9,14 @@ export function MarketPlaceSearchBar() {
   const [searchString, setSearchString] = React.useState(selector);
 
   const setSearchState = useDebounce(() => {
-    console.log(searchString);
     dispatch(setSearchText(searchString));
   });
 
-  const dispatch = useAppDispatch();
-
-  const onSearchChanged = (text: string) => {
+  const onSearchPress = (text: string) => {
     setSearchString(text);
   };
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setSearchState();
@@ -27,8 +26,9 @@ export function MarketPlaceSearchBar() {
   return (
     <SearchBar
       value={searchString}
-      onChangeText={text => {
-        onSearchChanged(text);
+      onSearchPress={(text: string) => {
+        console.log(text);
+        onSearchPress(text);
       }}
     />
   );

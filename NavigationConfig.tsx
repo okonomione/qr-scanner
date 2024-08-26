@@ -1,6 +1,7 @@
 import React from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useColors from './src/Infrastructure/useColors';
+import {MaterialBottomTabNavigationOptions} from 'react-native-paper';
 
 interface NavIconProps {
   focused?: boolean;
@@ -63,7 +64,7 @@ export const profileTabBarIcon = (props: NavIconProps) => (
   />
 );
 
-export const profileTabBarOptions = {
+export const profileTabBarOptions: MaterialBottomTabNavigationOptions = {
   tabBarIcon: profileTabBarIcon,
 };
 

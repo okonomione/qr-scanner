@@ -4,9 +4,11 @@ import {StyleSheet, View} from 'react-native';
 export function Divider() {
   const style = StyleSheet.create({
     container: {
-      borderBottomColor: 'black',
+      borderBottomColor: '#ffffff30',
       borderBottomWidth: StyleSheet.hairlineWidth,
       width: '100%',
+      marginTop: 4,
+      marginBottom: 4,
     },
   });
 

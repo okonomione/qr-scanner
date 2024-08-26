@@ -1,45 +1,59 @@
-import {ISearchResultItem} from '../data/data';
+import {config} from '../config/config';
+import {IListing} from '../data/data';
 
 export interface IListingService {
-  getListings(): Promise<ISearchResultItem[]>;
+  getListing(listingId: string): Promise<IListing>;
 }
 
 export abstract class BaseService {
-  public fetchItems = async (url: string) => {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-cap-tok': 'M0onC@ke1',
-          x_q_f: 'Kjoq',
-          x_q_re: 'Kjoq',
-          x_q_c: '0',
-        },
+  protected async post(url: string): Promise<any> {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-cap-tok': 'M0onC@ke1',
+      },
+    });
+
+    if (response.status !== 200) {
+      console.log('Error fetching items', JSON.stringify(response, null, 2));
+    }
+    const jsonResponse = await response.json();
+
+    return jsonResponse;
+  }
+
+  protected async get(url: string): Promise<any> {
+    console.log('---------------------------------url 123', url);
+
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-cap-tok': 'M0onC@ke1',
+      },
+    })
+      .catch(e => {
+        console.error(e);
+        return e;
+      })
+      .then(r => {
+        console.log('-----------------------', r);
+        return r;
       });
 
-      if (response.status !== 200) {
-        console.log('Error fetching items', response);
-      }
-
-      const jsonResponse = await response.json();
-      return jsonResponse.response?.docs
-        .map((d: any) => ({
-          ...d,
-          ran: Math.random(),
-        }))
-        .sort((a: any, b: any) => a.ran - b.ran);
-    } catch (error) {
-      console.log('Error fetching items', error);
+    if (response.status !== 200) {
+      console.log('Error fetching items', JSON.stringify(response, null, 2));
     }
-    return null;
-  };
+
+    const jsonResponse = await response.json();
+
+    return jsonResponse;
+  }
 }
 
 export class ListingService extends BaseService implements IListingService {
-  getListings(): Promise<ISearchResultItem[]> {
-    return this.fetchItems(
-      'https://collector-spoke-apim.azure-api.net/slr/l/s/listing-search',
-    );
+  getListing(listingId: string): Promise<IListing> {
+    const url = config.serviceConfig.getListingUrl;
+    return this.get(`${url}/${listingId}/AU`);
   }
 }
