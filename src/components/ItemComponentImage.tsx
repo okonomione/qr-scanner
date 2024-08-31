@@ -12,15 +12,24 @@ export function ItemComponentImage(props: {
     'thumbnails',
   )}`;
 
+  // const doubleTap = Gesture.Tap()
+  //   .numberOfTaps(2)
+  //   .runOnJS(true)
+  //   .onStart(() => {
+  //     console.log('double tap');
+  //   });
+
   return (
     <Pressable onPress={props.onPress}>
-      <Image
-        loadingIndicatorSource={require('../components/assets/spinner.gif')}
-        source={{
-          uri: url,
-        }}
-        style={props.style}
-      />
+      {url && (
+        <Image
+          loadingIndicatorSource={require('../components/assets/spinner.gif')}
+          source={{
+            uri: url,
+          }}
+          style={props.style}
+        />
+      )}
     </Pressable>
   );
 }

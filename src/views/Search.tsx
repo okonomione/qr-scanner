@@ -66,6 +66,7 @@ export function SearchView() {
     }
   };
 
+  
   return (
     <View style={style.container}>
       {!showSearchResults ? (

@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "build_apk": "cd android && .\\gradlew assembleRelease"
+    "build_apk": "cd android && .\\gradlew assembleRelease",
+    "postbuild_apk": "copy .\\android\\app\\build\\outputs\\apk\\release\\app-release.apk \"G:\\My Drive\\Business\\MidnightMerchant\\app-release.apk\""
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",
@@ -21,8 +22,11 @@
     "graphql": "^16.9.0",
     "react": "18.2.0",
     "react-native": "0.73.1",
+    "react-native-chartjs": "^1.0.3",
     "react-native-config": "^1.5.3",
+    "react-native-device-info": "^11.1.0",
     "react-native-gesture-handler": "^2.18.1",
+    "react-native-gifted-charts": "^1.4.30",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-mmkv": "^2.12.2",
     "react-native-paper": "^5.11.4",

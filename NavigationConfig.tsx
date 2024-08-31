@@ -64,18 +64,30 @@ export const profileTabBarIcon = (props: NavIconProps) => (
   />
 );
 
-export const profileTabBarOptions: MaterialBottomTabNavigationOptions = {
+export const profileTabBarOptions: (
+  options?: MaterialBottomTabNavigationOptions,
+) => MaterialBottomTabNavigationOptions = options => ({
   tabBarIcon: profileTabBarIcon,
-};
+  ...options,
+});
 
-export const homeTabOptions = {
+export const homeTabOptions = (
+  options?: MaterialBottomTabNavigationOptions,
+) => ({
   tabBarIcon: homeTabBarIcon,
-};
+  ...options,
+});
 
-export const aboutTabOptions = {
+export const aboutTabOptions = (
+  options?: MaterialBottomTabNavigationOptions,
+) => ({
+  ...options,
   tabBarIcon: aboutTabBarIcon,
-};
+});
 
-export const createListingTabOptions = {
+export const createListingTabOptions = (
+  options?: MaterialBottomTabNavigationOptions,
+) => ({
   tabBarIcon: createListingTabBarIcon,
-};
+  ...options,
+});

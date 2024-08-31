@@ -14,6 +14,7 @@ const sharedColors = {
   secondaryBackground: '#252d32',
   softText: '#8a8e90',
   accent: '#98fff9',
+  accent2: '#ee8f00',
   black: '#000000',
   white: '#FFFFFF',
   // secondaryBackground: '#161d22',

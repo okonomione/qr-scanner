@@ -8,7 +8,7 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Home} from './src/views/Home';
 import {About} from './src/views/About';
-import {CreateListing, Profile} from './src/views/CreateListing';
+import {CreateListing} from './src/views/CreateListing';
 import {Colors, ThemeProvider} from './src/styles/Theme';
 import useColors from './src/Infrastructure/useColors';
 import {useColorScheme, StyleSheet} from 'react-native';
@@ -20,7 +20,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import {useDebounce} from './src/utils/debounce';
 import {config} from './src/config/config';
-
+import {isTablet} from 'react-native-device-info';
 // Initialize Apollo Client
 const client = new ApolloClient({
   uri: config.serviceConfig.graphEndpoint,
@@ -37,6 +37,10 @@ import {SearchBar} from './src/components/SearchBar';
 import {AppHeader} from './src/components/AppHeader';
 import {setSearchText} from './src/features/search/slice/SearchSlice';
 import {Listing} from './src/views/Listing';
+import {SingleCard} from './src/views/SingleListing';
+import {MixedBundle} from './src/views/MixedBundle';
+import {SealedSingle} from './src/views/SealedSingle';
+import {Profile} from './src/views/Profile';
 
 global.Buffer = require('buffer').Buffer;
 
@@ -82,16 +86,44 @@ export function ProfileNavigationStack() {
 }
 
 export function PlaceAdNavigationStack() {
+  const {colors} = useColors();
+
+  const genericOptions = {
+    headerShown: true,
+    headerStyle: {
+      backgroundColor: colors.secondaryBackground,
+    },
+    headerTintColor: '#fff',
+  };
+
   return (
     <Stack.Navigator>
-      <Stack.Screen name="PlaceAdMain" component={CreateListing} />
+      <Stack.Screen
+        name="Create Listing"
+        component={CreateListing}
+        options={genericOptions}
+      />
+      <Stack.Screen
+        name="Single Listing"
+        component={SingleCard}
+        options={genericOptions}
+      />
+      <Stack.Screen
+        name="Mixed Singles"
+        component={MixedBundle}
+        options={genericOptions}
+      />
+      <Stack.Screen
+        name="Sealed Singles"
+        component={SealedSingle}
+        options={genericOptions}
+      />
     </Stack.Navigator>
   );
 }
 
 export function MarketplaceNavigationTabs() {
   const {colors} = useColors();
-
   const styles = StyleSheet.create({
     tabBarStyle: {
       height: 75,
@@ -112,18 +144,18 @@ export function MarketplaceNavigationTabs() {
       <Tab.Screen
         name="Marketplace"
         component={HomeNavigationStack}
-        options={{...homeTabOptions}}
+        options={homeTabOptions()}
       />
       <Tab.Screen
         name="PlaceAd"
         component={PlaceAdNavigationStack}
-        options={createListingTabOptions}
+        options={createListingTabOptions()}
       />
-      <Tab.Screen name="About" component={About} options={aboutTabOptions} />
+      <Tab.Screen name="About" component={About} options={aboutTabOptions()} />
       <Tab.Screen
         name="Profile"
         component={ProfileNavigationStack}
-        options={profileTabBarOptions}
+        options={profileTabBarOptions()}
       />
       {/* <Tab.Screen
         name="Listing"
@@ -175,6 +207,8 @@ const MarketPlaceSearchBar = () => {
 export function HomeNavigationStack() {
   const {colors} = useColors();
 
+  const orientation = isTablet() ? 'all' : 'portrait';
+  console.log(orientation);
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -182,6 +216,7 @@ export function HomeNavigationStack() {
         component={Home}
         options={{
           header: Header,
+          orientation: orientation,
         }}
       />
       <Stack.Screen

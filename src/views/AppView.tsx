@@ -1,5 +1,11 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, StatusBar, StyleProp} from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {ViewStyle} from 'react-native';
 import useColors from '../Infrastructure/useColors';
 
@@ -57,12 +63,8 @@ export function AppMainView(props: {
     };
   }, []);
 
-  // const onSearchPress = () => {
-  //   props.navigation.navigate('Search');
-  // };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={backgroundStyle as any}>
       <StatusBar backgroundColor={colors.primaryBackground} />
       {props.children}
     </SafeAreaView>
@@ -74,5 +76,19 @@ export function ProfileView(props: {children?: React.ReactNode}) {
 }
 
 export function PlaceAdView(props: {children?: React.ReactNode}) {
-  return props.children;
+  const {colors} = useColors();
+
+  const style = StyleSheet.create({
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1,
+      gap: 20,
+      backgroundColor: colors.primaryBackground,
+    },
+  });
+
+  return <View style={style.container}>{props.children}</View>;
 }

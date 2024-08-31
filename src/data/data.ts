@@ -207,6 +207,7 @@ export interface IFeeTable {
 
 export interface ICard {
   id: string;
+  productKey: string;
   cardId: string;
   name: string;
   number: string;

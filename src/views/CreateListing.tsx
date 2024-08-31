@@ -1,19 +1,32 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {PlaceAdView, ProfileView} from './AppView';
+import {PlaceAdView} from './AppView';
 
-export function CreateListing() {
+import {RainbowButton} from '../components/RainbowButtonComponent';
+
+export function CreateListing(prop: {navigation: any}) {
   return (
     <PlaceAdView>
-      <Text>Create Listing</Text>
+      <RainbowButton
+        text="Single Card"
+        onPress={() => {
+          console.log('Create Listing');
+          prop.navigation.navigate('Single Listing');
+        }}
+      />
+      <RainbowButton
+        text="Mixed Bundle"
+        onPress={() => {
+          console.log('Create Listing');
+          prop.navigation.navigate('Mixed Singles');
+        }}
+      />
+      <RainbowButton
+        text="Sealed Single"
+        onPress={() => {
+          console.log('Create Listing');
+          prop.navigation.navigate('Sealed Singles');
+        }}
+      />
     </PlaceAdView>
-  );
-}
-
-export function Profile() {
-  return (
-    <ProfileView>
-      <Text>Profile</Text>
-    </ProfileView>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import useColors from '../Infrastructure/useColors';
 import {ItemComponentImage} from './ItemComponentImage';
@@ -123,17 +123,33 @@ export function SearchItemComponent(props: SearchItemComponentProps) {
           <Text style={style.subAmountText}>{props.subAmountText}</Text>
         </View>
         <View>
-          <LabelValue value={props.userName} label={props.userName} />
+          <IconLabelValue
+            value={props.userName}
+            label={props.userName}
+            color="primary"
+            flexSpacing="space-between"
+            orientation="row"
+          />
         </View>
       </View>
-      <LabelValue value={props.footerValue} label={props.footerLabel} />
+      <IconLabelValue
+        value={props.footerValue}
+        label={props.footerLabel}
+        color="primary"
+        flexSpacing="space-between"
+      />
     </View>
   );
 }
 
-export interface KeyValueProps {
+export interface LabelValueProp {
   label?: string;
   value?: string;
+  icon?: React.JSX.Element;
+  color?: ColorTypeProp;
+  orientation?: OrientationProp;
+  flexSpacing?: FlexSpacingProp;
+  style?: any;
 }
 
 export interface UserProps {
@@ -182,28 +198,76 @@ export function User(props: UserProps) {
   );
 }
 
-export function LabelValue(props: KeyValueProps) {
+type FlexSpacingProp =
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly'
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | undefined;
+type ColorTypeProp = 'primary' | 'secondary' | 'accent' | 'soft' | undefined;
+type OrientationProp =
+  | 'row'
+  | 'column'
+  | 'row-reverse'
+  | 'column-reverse'
+  | undefined;
+
+export function IconLabelValue(props: LabelValueProp) {
   const {colors} = useColors();
+  const [textColor, setTextColor] = React.useState<string>(
+    props.color ?? 'primary',
+  );
+
+  useEffect(() => {
+    if (props.color === 'primary') {
+      setTextColor(colors.textPrimary);
+    }
+
+    if (props.color === 'secondary') {
+      setTextColor(colors.secondary);
+    }
+    if (props.color === 'accent') {
+      setTextColor(colors.accent);
+    }
+
+    if (props.color === 'soft') {
+      setTextColor(colors.softText);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.color]);
 
   const style = StyleSheet.create({
     container: {
       display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      alignItems: 'center',
+      justifyContent: props.flexSpacing ?? 'flex-start',
+      flexDirection: props.orientation ?? 'row',
+      gap: 4,
       width: '100%',
-      paddingTop: 4,
-      paddingBottom: 4,
+      ...props.style,
     },
-    userName: {
-      color: colors.textPrimary,
+    label: {
+      color: textColor,
       fontSize: 12,
     },
   });
 
   return (
     <View style={style.container}>
-      <Text style={style.userName}>{props.label}</Text>
-      <Text style={style.userName}>{props.value}</Text>
+      {props.icon}
+      {props.label && (
+        <Text numberOfLines={1} ellipsizeMode="tail" style={style.label}>
+          {props.label}
+        </Text>
+      )}
+      {props.value && (
+        <Text numberOfLines={1} ellipsizeMode="tail" style={style.label}>
+          {props.value}
+        </Text>
+      )}
     </View>
   );
 }

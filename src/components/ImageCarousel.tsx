@@ -33,10 +33,13 @@ export function ImageCarousel(props: {images: string[]; style?: any}) {
         width={w.width}
         data={props.images ?? []}
         scrollAnimationDuration={1000}
+        pagingEnabled={true}
+        overscrollEnabled={false}
         panGestureHandlerProps={{
           activeOffsetX: [-10, 10],
         }}
-        // onSnapToItem={index => console.log('snapped to', index)}
+        snapEnabled={true}
+        onSnapToItem={index => console.log('snapped to', index)}
         renderItem={({index}) => {
           return (
             <View style={style.itemImage}>
